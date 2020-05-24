@@ -1,5 +1,7 @@
 <sdf version='1.6'>
   <world name='default'>
+  
+  <plugin filename="libcollision_map_creator.so" name="collision_map_creator"/>
     <model name='ground_plane'>
       <static>1</static>
       <link name='link'>
