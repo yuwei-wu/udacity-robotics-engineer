@@ -17,17 +17,10 @@ bool handle_drive_request_callback(ball_chaser::DriveToTarget::Request& req, bal
     motor_command.linear.x = req.linear_x;
     motor_command.angular.z = req.angular_z;  
  
- //       while (ros::ok()) {
- //       // Create a motor_command object of type geometry_msgs::Twist
- //       geometry_msgs::Twist motor_command;
- //       // Set wheel velocities, forward [0.5, 0.0]
- //       motor_command.linear.x = 0.5;
- //       motor_command.angular.z = 0.0;
- //       // Publish angles to drive the robot
     motor_command_publisher.publish(motor_command);
- //   }
 
-    res.msg_feedback = "motor commands linear x:" + std::to_string(motor_command.linear.x) + ", angular z:" + std::to_string(motor_command.angular.z);
+
+    res.msg_feedback = "Motor commands linear x:" + std::to_string(motor_command.linear.x) + ", angular z:" + std::to_string(motor_command.angular.z);
     ROS_INFO_STREAM(res.msg_feedback);
     return true;
 
