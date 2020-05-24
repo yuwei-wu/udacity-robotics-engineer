@@ -52,8 +52,8 @@ void process_image_callback(const sensor_msgs::Image img)
   }
 
 
-    int lin_x = 0;
-    int ang_z = 0;
+    double lin_x = 0;
+    double ang_z = 0;
     if(move_left > move_right && move_left > move_forward){
       ang_z = -0.5;
     }else if(move_right > move_left && move_right > move_forward){
