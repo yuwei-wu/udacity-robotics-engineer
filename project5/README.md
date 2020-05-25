@@ -41,7 +41,7 @@ sh ./add_markers.sh
 ```
 
 <p align="center">
-   <img src="images/Screenshot from 2020-05-25 14-56-00.png" width="70%" height="70%">
+   <img src="images/Screenshot from 2020-05-25 19-25-27.png" width="70%" height="70%">
 
 </p>
 
