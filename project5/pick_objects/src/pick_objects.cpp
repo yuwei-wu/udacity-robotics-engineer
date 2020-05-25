@@ -23,9 +23,19 @@ int main(int argc, char** argv){
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
-  // Define a position and orientation for the robot to reach
-  goal.target_pose.pose.position.x = 2.0;
+
+
+  goal.target_pose.pose.position.x = 0.0;
   goal.target_pose.pose.position.y = 0.0;
+  goal.target_pose.pose.orientation.w = 1.0;
+
+  ROS_INFO("Correct the original position");
+  ac.sendGoal(goal);
+
+
+  // Define a position and orientation for the robot to reach
+  goal.target_pose.pose.position.x = 0.0;
+  goal.target_pose.pose.position.y = 1.0;
   goal.target_pose.pose.orientation.w = 1.0;
 
 
@@ -42,9 +52,9 @@ int main(int argc, char** argv){
 
   // Check if the robot reached its goal
   if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    ROS_INFO("Hooray, the base moved 2 meter forward");
+    ROS_INFO("Hooray, the base moved forward (step one)");
   else
-    ROS_INFO("The base failed to move forward 2 meter for some reason");
+    ROS_INFO("The base failed to move for some reason");
 
 
   ROS_INFO("Pause 5 seconds after reaching the pickup zone");
@@ -67,7 +77,7 @@ int main(int argc, char** argv){
 
   // Check if the robot reached its goal
   if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    ROS_INFO("Hooray, the base moved 1 meter behind");
+    ROS_INFO("Hooray, the base moved 1 meter behind (step two)");
   else
     ROS_INFO("The base failed to move for some reason");
 

@@ -42,7 +42,7 @@
 double positionx;
 double positiony;
 
-double positionx1 = 2.0, positiony1 = 0;
+double positionx1 = 0.0, positiony1 = 1.0;
 double positionx2 = -1.0, positiony2 = 0;
 bool pickup = false;
 bool dropoff = false;
@@ -61,13 +61,12 @@ int main( int argc, char** argv )
 {
   ros::init(argc, argv, "add_markers");
   ros::NodeHandle n;
-  ros::Rate r(1);
   ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
 // %EndTag(INIT)%
 
   
   
-  ros::Subscriber sub = n.subscribe("/amcl_pose", 1, odom_callback);
+  ros::Subscriber sub = n.subscribe("/amcl_pose", 10, odom_callback);
 
   // Set our initial shape type to be a cube
 // %Tag(SHAPE_INIT)%
@@ -108,15 +107,15 @@ int main( int argc, char** argv )
 
     // Set the scale of the marker -- 1x1x1 here means 1m on a side
 // %Tag(SCALE)%
-  marker.scale.x = 1.0;
-  marker.scale.y = 1.0;
-  marker.scale.z = 1.0;
+  marker.scale.x = 0.25;
+  marker.scale.y = 0.25;
+  marker.scale.z = 0.25;
 // %EndTag(SCALE)%
 
     // Set the color -- be sure to set alpha to something non-zero!
 // %Tag(COLOR)%
-  marker.color.r = 0.0f;
-  marker.color.g = 1.0f;
+  marker.color.r = 1.0f;
+  marker.color.g = 0.0f;
   marker.color.b = 0.0f;
   marker.color.a = 1.0;
 // %EndTag(COLOR)%
@@ -136,24 +135,29 @@ int main( int argc, char** argv )
     
   while (ros::ok())
   {
-    // Calculate the distance
-    double pickup_dist = (positionx-positionx1)*(positionx-positionx1) + (positiony-positiony1)*(positiony-positiony1);
 
-    if (pickup_dist>0.01 && !pickup)
-    {
+    if (!pickup){
+        double pickup_dist = (positionx-positionx1)*(positionx-positionx1) + (positiony-positiony1)*(positiony-positiony1);
         marker.action = visualization_msgs::Marker::ADD;
         marker.pose.position.x = positionx1;
         marker.pose.position.y = positiony1;
-    }else{
-      marker.action = visualization_msgs::Marker::DELETE;
-      pickup = true;
+
+        ROS_INFO("set pick up points");
+
+       if (pickup_dist<0.2)
+       {
+          marker.action = visualization_msgs::Marker::DELETE;
+          ROS_INFO("start to wait");
+          pickup = true;
+          break;
     
+        }
     }
       
 
     if ( pickup && ! wait )
     {
-       ROS_INFO("wait for 5 seconds");
+       ROS_INFO("wait for 5 seconds for the points");
        ros::Duration(5.0).sleep();
        wait = true;  
       
@@ -164,7 +168,7 @@ int main( int argc, char** argv )
       
       double dropoff_dist = (positionx-positionx2)*(positionx-positionx2) + (positiony-positiony2)*(positiony-positiony2);
       
-      if (dropoff_dist>0.01)
+      if (dropoff_dist>0.2)
       {
         marker.action = visualization_msgs::Marker::DELETE;
       }
@@ -180,6 +184,7 @@ int main( int argc, char** argv )
      
     
     marker_pub.publish(marker);
+    ROS_INFO("finish point for this step");
     
     sleep(1);
   }
