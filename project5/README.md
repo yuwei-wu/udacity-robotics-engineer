@@ -20,6 +20,16 @@ sh ./test_slam.sh
 ```
 sh ./test_navigation.sh
 ```
+<p align="center">
+   <img src="images/Screenshot from 2020-05-25 13-14-22.png" width="70%" height="70%">
+
+</p>
+
+
+<p align="center">
+   <img src="images/Screenshot from 2020-05-25 13-27-03.png" width="70%" height="70%">
+
+</p>
 
 (3) test pick_objects and add_markers
 
@@ -30,11 +40,21 @@ sh ./pick_objects.sh
 sh ./add_markers.sh
 ```
 
+<p align="center">
+   <img src="images/Screenshot from 2020-05-25 14-56-00.png" width="70%" height="70%">
+
+</p>
 
 (4) run the home service robot
 ```
 sh ./home_service.sh
 ```
+
+
+<p align="center">
+   <img src="images/Screenshot from 2020-05-25 14-56-00.png" width="70%" height="70%">
+
+</p>
 
 
 ### Official ROS packages I refer:
